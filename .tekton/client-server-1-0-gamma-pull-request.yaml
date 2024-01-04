@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   annotations:
-    build.appstudio.openshift.io/repo: https://github.com/securesign/sigstore-ocp?rev={{revision}}
+    build.appstudio.openshift.io/repo: https://github.com/spork-madness/sigstore-ocp?rev={{revision}}
     build.appstudio.redhat.com/commit_sha: '{{revision}}'
     build.appstudio.redhat.com/pull_request_number: '{{pull_request_number}}'
     build.appstudio.redhat.com/target_branch: '{{target_branch}}'
@@ -12,11 +12,11 @@ metadata:
       )
   creationTimestamp: null
   labels:
-    appstudio.openshift.io/application: access-1-0-gamma
+    appstudio.openshift.io/application: sigstore-nudges
     appstudio.openshift.io/component: client-server-1-0-gamma
     pipelines.appstudio.openshift.io/type: build
   name: client-server-1-0-gamma-on-pull-request
-  namespace: rhtas-tenant
+  namespace: arewm-tenant
 spec:
   params:
   - name: dockerfile
@@ -26,17 +26,11 @@ spec:
   - name: image-expires-after
     value: 5d
   - name: output-image
-    value: quay.io/redhat-user-workloads/rhtas-tenant/access-1-0-gamma/client-server-1-0-gamma:on-pr-{{revision}}
+    value: quay.io/redhat-user-workloads/arewm-tenant/sigstore-nudges/client-server-1-0-gamma:on-pr-{{revision}}
   - name: path-context
     value: images
   - name: revision
     value: '{{revision}}'
-  - name: prefetch-input
-    value: ''
-  - name: hermetic
-    value: "true"
-  - name: build-source-image
-    value: "true"
   pipelineSpec:
     finally:
     - name: show-sbom
@@ -237,7 +231,7 @@ spec:
         - name: name
           value: buildah
         - name: bundle
-          value: quay.io/redhat-appstudio-tekton-catalog/task-buildah:0.1@sha256:9e7be6d3f2cde33fabfda9d454757530ce7f73e2414c00da1a3ebabf95fc52c5
+          value: quay.io/redhat-appstudio-tekton-catalog/task-buildah:0.1@sha256:16c429b61abb6c6b3b4d96706f329dc88e2a4fb22b6b4fe804ce32e91b561fd7
         - name: kind
           value: task
         resolver: bundles
@@ -353,7 +347,7 @@ spec:
         - name: name
           value: clamav-scan
         - name: bundle
-          value: quay.io/redhat-appstudio-tekton-catalog/task-clamav-scan:0.1@sha256:d742ad90474ecccd066bbd98657885602e32c9f76d26991726b63a44f11feab2
+          value: quay.io/redhat-appstudio-tekton-catalog/task-clamav-scan:0.1@sha256:d72cb58db88289559676676c3db43906718028e07279f70ddb12ed8bdc8e2860
         - name: kind
           value: task
         resolver: bundles
